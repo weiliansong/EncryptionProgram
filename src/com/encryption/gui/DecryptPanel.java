@@ -12,6 +12,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import com.encryption.Decrypter;
+
 import java.io.*;
 
 public class DecryptPanel extends JPanel implements ActionListener {
@@ -24,7 +26,9 @@ public class DecryptPanel extends JPanel implements ActionListener {
 	private static JButton key_button;
 	private static JButton encrypted_button;
 	private static JFileChooser fc;
-	private static File file;
+	private static File encrypted_file;
+	private static File key_file;
+	private static Decrypter decrypter;
 	
 	public DecryptPanel() {
 		super();
@@ -65,18 +69,21 @@ public class DecryptPanel extends JPanel implements ActionListener {
 			int returnVal = fc.showOpenDialog(DecryptPanel.this);
 			
 			if(returnVal == JFileChooser.APPROVE_OPTION) {
-				file = fc.getSelectedFile();
+				encrypted_file = fc.getSelectedFile();
+				
 			}
 		}
 		else if(e.getSource() == key_button) {
 			int returnVal = fc.showOpenDialog(DecryptPanel.this);
 			
 			if(returnVal == JFileChooser.APPROVE_OPTION) {
-				file = fc.getSelectedFile();
+				key_file = fc.getSelectedFile();
 			}
 		}
 		else if(e.getSource() == decrypt_button) {
-			
+			if(encrypted_file.isFile() && key_file.isFile()) {
+				decrypter = new Decrypter(encrypted_file.getPath(), key_file.getPath());
+			}
 		} else{}
 	}
 
