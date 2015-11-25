@@ -89,12 +89,19 @@ public class Encrypter {
 	}
 	
 	private void permutate(int[] permutation) {
-		int left = permutation[0];
-		int down = permutation[0];
-		int right = permutation[0];
-		int up = permutation[0];
+		int left = permutation[0] % 3;
+		int down = permutation[1] % 3;
+		int right = permutation[2] % 2;
+		int up = permutation[3] % 2;
 		
-		
+		move_left(left);
+		move_down(down);
+		for(int[] word : m_processed) {
+			for(int letter : word) {
+				System.out.print(letter + " ");
+			}
+			System.out.println(" ");
+		}
 	}
 	
 	private void calculate(int[] math) {
@@ -106,11 +113,44 @@ public class Encrypter {
 		
 	}
 	
-	private void left(int movement) {
-		for(int i = 0; i < m_processed.length; i++) {
-			for(int current = m_processed[i].length; current >= 0; current--) {
-				
+	private void move_left(int movement) {
+		if(movement != 0) {
+			int word_length = m_processed[0].length;
+			for(int i = 0; i < m_processed.length; i++) {
+				int[] processed_word = new int[word_length];
+				for(int j = 0; j < word_length - movement; j++) {
+					processed_word[j] = m_processed[i][j+movement];
+				}
+				for(int k = 0; k < movement; k++) {
+					processed_word[word_length - movement + k] = m_processed[i][k];
+				}
+				m_processed[i] = processed_word;
 			}
 		}
+		else
+			return;
+	}
+	
+	private void move_down(int movement) {
+		if(movement != 0) {
+			int sentence_length = m_processed.length;
+			int word_length = m_processed[0].length;
+			int[][] processed_sentence = new int[sentence_length][word_length];
+			int temp = 0;
+			for(int i = sentence_length - movement; i < sentence_length; i++) {
+				processed_sentence[temp] = m_processed[i];
+				temp++;
+			}
+			for(int i = 0; i < sentence_length - movement; i++) {
+				processed_sentence[i + movement] = m_processed[i];
+			}
+			m_processed = processed_sentence;
+		}
+		else
+			return;
+	}
+	
+	private void move_right(int movement) {
+		
 	}
 }
