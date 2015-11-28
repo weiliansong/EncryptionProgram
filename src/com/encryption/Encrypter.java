@@ -88,14 +88,7 @@ public class Encrypter {
 		calculate(math);
 	}
 	
-	private void permutate(int[] permutation) {
-		int left = permutation[0] % 3;
-		int down = permutation[1] % 3;
-		int right = permutation[2] % 2;
-		int up = permutation[3] % 2;
-		
-		move_left(left);
-		move_down(down);
+	private void display() {
 		for(int[] word : m_processed) {
 			for(int letter : word) {
 				System.out.print(letter + " ");
@@ -104,12 +97,45 @@ public class Encrypter {
 		}
 	}
 	
+	private void permutate(int[] permutation) {
+		int left = permutation[0] % 3;
+		int down = permutation[1] % 3;
+		int right = permutation[2] % 2;
+		int up = permutation[3] % 2;
+		
+		move_left(left);
+		move_down(down);
+		move_right(right);
+		move_up(up);
+	}
+	
 	private void calculate(int[] math) {
 		int subtract = math[0];
 		int multiply = math[1];
-		int divide = math[2];
-		int add = math[3];
+		int divide   = math[2];
+		int add      = math[3];
 		
+		math_subtract(subtract);
+		math_multiply(multiply);
+		math_divide(divide);
+		math_add(add);
+		
+		display();
+	}
+	
+	private void math_subtract(int factor) {
+		
+	}
+	
+	private void math_multiply(int factor) {
+		
+	}
+	
+	private void math_divide(int factor) {
+		
+	}
+	
+	private void math_add(int factor) {
 		
 	}
 	
@@ -151,6 +177,39 @@ public class Encrypter {
 	}
 	
 	private void move_right(int movement) {
-		
+		if(movement != 0) {
+			int word_length = m_processed[0].length;
+			for(int i = 0; i < m_processed.length; i++) {
+				int[] processed_word = new int[word_length];
+				for(int k = 0; k < movement; k++) {
+					processed_word[k] = m_processed[i][word_length - movement + k];
+				}
+				for(int j = 0; j < word_length - movement; j++) {
+					processed_word[j+movement] = m_processed[i][j];
+				}
+				m_processed[i] = processed_word;
+			}
+		}
+		else
+			return;
+	}
+	
+	private void move_up(int movement) {
+		if(movement != 0) {
+			int sentence_length = m_processed.length;
+			int word_length = m_processed[0].length;
+			int[][] processed_sentence = new int[sentence_length][word_length];
+			int temp = 0;
+			for(int i = 0; i < sentence_length - movement; i++) {
+				processed_sentence[i] = m_processed[i + movement];
+			}
+			for(int i = sentence_length - movement; i < sentence_length; i++) {
+				processed_sentence[i] = m_processed[temp];
+				temp++;
+			}
+			m_processed = processed_sentence;
+		}
+		else
+			return;
 	}
 }
