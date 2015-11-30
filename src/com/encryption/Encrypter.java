@@ -85,7 +85,7 @@ public class Encrypter {
 		math[3] = four_corners[3] % 10;
 		
 		permutate(permutation);
-	//	calculate(math);
+		calculate(math);
 	}
 	
 	private void display() {
@@ -107,8 +107,6 @@ public class Encrypter {
 		move_down(down);
 		move_right(1);
 	//	move_up(1);
-		
-		display();
 	}
 	
 	private void calculate(int[] math) {
