@@ -107,7 +107,6 @@ public class Encrypter {
 		move_down(down);
 		move_right(1);
 	//	move_up(1);
-		
 		display();
 	}
 	
